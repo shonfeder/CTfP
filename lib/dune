@@ -1,0 +1,5 @@
+(library
+ (name composition)
+ (inline_tests)
+ (libraries qcheck)
+ (preprocess (pps ppx_inline_test)))
