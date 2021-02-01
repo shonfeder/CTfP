@@ -1,4 +1,6 @@
-(** {1} Notes on Chapter 1 *)
+(** {1} Notes on Chapter 1
+
+*)
 
 (** {2} 1.4 Challenges *)
 
@@ -11,7 +13,7 @@ let id : 'a. 'a -> 'a  =
 (** Exercise 2
     Implement the composition function. *)
 
-let (%) : 'a 'b 'c. ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c =
+let (%) : ('b -> 'c) -> ('a -> 'b) -> 'a -> 'c =
   fun g f x -> g (f x)
 
 (** Exercise 3
@@ -34,10 +36,40 @@ end)
 
 (** Exercise 4
 
-    > Is the worl-wide web a category in any sense? Are links morphisms?
+    > Is the world-wide web a category in any sense? Are links morphisms?
+
+    Links hyperlinks are not morphisms between pages, because most pages don't
+    have a hyperlink pointing to themselves, and hyperlinks are not transitive:
+    if page A has a link to page B and page B a link to page C, there is no
+    reason to think there will also be a hyperlink from A to C. I.e., the
+    hyperlink connection doesn't compose.
+
+    However, I think the www is a category if the objects are pages and the
+    morphisms are the the relation of "navigable from". Each page is navigable
+    from itself by reloading. One page is navigable from another another if
+    there is a hyperlink, and you can compose these morphisms by first following
+    one link then another.
 *)
 
-
-
 (** Exercise 5
-    > Is Facebook a category, with people as objects and friendships as morphsisms? *)
+
+    > Is Facebook a category, with people as objects and friendships as morphsisms?
+
+    Facebook might be a category in some senses, but not with this assignment. I
+    don't think people are friends with themselves, and friendship is not transitive.
+*)
+
+(** Exercise 6
+
+    > When is a directed graph a category?
+
+    A digraph is a category where the nodes are objects and the edges are
+    morphisms when
+
+    - every node has a loop
+    - there is an edge for every possile connection, reflecting the transitive
+      closure of the "connected to" relation.
+
+    If we let the morphisms just be the "connected to" relation, and consider
+    this relationship to hold trivially for nodes even if they don't have edges
+    back to themselves, then maybe every digraph is a category? *)
