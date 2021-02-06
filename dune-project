@@ -14,8 +14,8 @@
  (depends
   (dune (> 2.7))
   (mdx :build)
-  (alcotest :with-test)
   (qcheck :with-test)
   (qcheck-alcotest :with-test)
   (ppx_inline_test :with-test)
+  (ppx_expect :with-test)
 ))
