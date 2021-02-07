@@ -68,7 +68,7 @@ let%test "memoization of non-deterministic functions" =
         (int_range 100 10000)
         (fun bound ->
           assume (bound > 0);
-          Random.int bound != Random.int bound)
+          Random.int bound <> Random.int bound)
     ; Test.make
         ~name:
           "memoized Random.int doesn't give different results on repeated \
@@ -76,7 +76,7 @@ let%test "memoization of non-deterministic functions" =
         (int_range 100 10000)
         (fun bound ->
           let memo_rand = memo Random.int in
-          not (memo_rand bound != memo_rand bound))
+          not (memo_rand bound <> memo_rand bound))
     ]
 
 (** Exercise 3
@@ -95,14 +95,15 @@ let%test _ =
         int
         (fun seed ->
           let memo_init_rand = memo init_rand in
-          init_rand seed = memo_init_rand seed)
+          init_rand seed = memo_init_rand seed
+          && init_rand seed = memo_init_rand seed)
     ]
 
 (** Exercise 4
 
     (a) Pure and equal to its memoized version.
     (b) Impure and unequal to its memoized version.
-    (c) Impure but benign, and equal to its memoized version.
+    (c) Impure but benign, thus equal to its memoized version.
     (d) Impre and unequal to its memoized version (due to shared, accumulating
         state in the static y)
 *)
@@ -115,9 +116,9 @@ module Bool_to_bool = struct
 
   let id : t = Fun.id
 
-  let to_true : t = fun _ -> true
+  let true_ : t = fun _ -> true
 
-  let to_false : t = fun _ -> false
+  let false_ : t = fun _ -> false
 
   let not : t = not
 end
