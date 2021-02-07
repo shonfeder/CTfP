@@ -129,4 +129,104 @@ end
     and bool; with arrows corresponding to all possible functions between these
     types. Label the arrows with the names of the functions.
 
-    See {{: ./ch-2-ex-6-diagram.png } the diagram} *)
+    See {{: ./ch-2-ex-6-diagram.png } the diagram}
+
+    NOTE: I forgot the endomorphisms in the diagram! *)
+
+(** Represented in OCaml *)
+module Ex_6 = struct
+  open Composition
+
+  module Obj = struct
+    (** Objects must at least have a map back to themselves *)
+    module type Triv = sig
+      type t
+
+      val id : t -> t
+    end
+
+    (** Objects which can map to the unit *)
+    module type ToUnit = sig
+      include Triv
+
+      val unit : t -> unit
+    end
+
+    (** Objects which can map to bool *)
+    module type ToBool = sig
+      include ToUnit
+      (** This will also necessarily be able to map to unit *)
+
+      val true_ : t -> bool
+
+      val false_ : t -> bool
+    end
+  end
+
+  (** Here we explicitly enumerate the morphisms represented in the diagram
+      (but also remember to include the endomorphisms), according each object
+      it's own namespace.
+
+      For each submodule:
+
+      - [t] is the type of the object
+      - ['a arr] is a morphisms from the object to a target object ['a] *)
+
+  (** {4 Morphisms from unit }*)
+  module rec Unit : (sig
+    include Obj.ToBool
+
+    val unit : 'a -> t
+  end
+  with type t = unit) = struct
+    type t = unit
+
+    let id = id
+
+    let true_, false_ = Bool.(true_, false_)
+
+    (** Universally polymorphic constructor of the sole inhabitant of the unit
+        type *)
+    let unit _ = ()
+  end
+
+  (** {4 Morphisms from bool} *)
+  and Bool : (sig
+    include Obj.ToBool
+
+    val not : t -> t
+
+    val true_ : 'a -> t
+
+    val false_ : 'a -> t
+  end
+  with type t = bool) = struct
+    type t = bool
+
+    let id = id
+
+    let not = not
+
+    let true_ _ = true
+
+    let false_ _ = false
+
+    let unit = Unit.unit
+  end
+
+  (** {4 Morphisms from bottom} *)
+  module Bottom : sig
+    include Obj.ToBool
+  end = struct
+    type t
+    (** We provide no constructors for this type, making it unreachable. *)
+
+    let id = id
+
+    let unit = Unit.unit
+
+    let true_ = Unit.true_ % unit
+
+    let false_ = Unit.false_ % unit
+  end
+end
