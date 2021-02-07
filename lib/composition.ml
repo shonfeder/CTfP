@@ -1,8 +1,9 @@
-(** {1} Notes on Chapter 1
+(** {1 Notes on Chapter 1}
 
-*)
+    For a runnable version of these answers, see
+    https://github.com/shonfeder/CTfP/blob/master/lib/composition.ml *)
 
-(** {2} 1.4 Challenges *)
+(** {2 1.4 Challenges} *)
 
 (** Exercise 1
     Implement the identify function. *)
