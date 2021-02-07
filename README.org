@@ -1,0 +1,4 @@
+#+TITLE: Category Theory for Programmers Exercises (in OCaml)
+
+I'm completing these exercises while participating in the [[https://github.com/codereport/CTfP-2021][CTfP-2021]] session of
+the [[https://www.meetup.com/Programming-Languages-Toronto-Meetup/][Programming Language Virtual Meetup]].
